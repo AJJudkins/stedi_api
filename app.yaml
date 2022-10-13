@@ -1,0 +1,34 @@
+# This is the verison of YAML we are using with K8s API
+apiVersion: apps/v1
+# The kind is the type of K8s resources that we are using
+# A deployment is when we run code on a server
+kind: Deployment
+# Metadata is information related to the object we created in K8s
+metadata:
+# The name here is the name of our deployment 
+  name: stedi-austin-judkins
+spec:
+# Replicas refers to the number of pods we deploy
+  replicas: 1
+# A selector is the route to my pod
+  selector:
+# Matchlabels are a label for my selector 
+    matchLabels:
+# App is a specific kind of label for my pod
+      app: stedi-austin-judkins
+# Template describes the features of my pod
+  template:
+# The metadata provides labels for my template 
+    metadata:
+      labels:
+        app: stedi-austin-judkins
+# The spec refers to the specification of my containers in my pod
+    spec:
+# Containers can have one or more Docker containers in the pod
+      container:
+# The name of the container is specified below
+        - name: stedi
+# The image is a pre-built file containing  the OP system
+          image: nginx
+  
+    
