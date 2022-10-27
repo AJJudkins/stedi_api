@@ -44,7 +44,7 @@ spec:
           - name: REDIS_PASS
             valueFrom:
               secretKeyRef:
-                name: redis-secrets-dev-austin
+                name: redis-secret-dev-austin
                 key: REDIS_PASS
           volumeMounts:
             - name: redis-dev-volume
