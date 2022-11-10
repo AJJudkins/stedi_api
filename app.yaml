@@ -61,26 +61,40 @@ spec:
 # periodSeconds tells Kubernetes how often to check health
             periodSeconds: 3
 ---
-#apiVersion tell kubernetes which verision of yaml to use
-apiVersion: v1
-# kind tells kubernetes what kind of object to create
-kind: Service
-# metadata conatins atributes about the object
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-# Name is the name of the object we are creating
-  name: stedi-austin-judkins-loadbalancer
-# Spec is the specification for the object (or the loadbalancer)
+  name: stedi-ingress-austin-judkins
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: stedi-public
+    networking.gke.io/managed-certificates: stedi-certificate-austin-judkins
+    kubernetes.io/ingress.allow-http: "false"
+    kubernetes.io/ingress.class: "gce"
 spec:
-# Selector tells the netwotk layer how to find the right pod
+  defaultBackend:
+    service:
+      name: stedi-nodeport-austin-judkins
+      port:
+        number: 80
+
+---
+
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: stedi-certificate-austin-judkins
+spec:
+  domains:
+    - austinjudkins.cit262.com 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stedi-nodeport-austin-judkins
+spec:
   selector:
-# App tells the selcetor which app to send traffic to
     app: stedi-austin-judkins
-# Type tell kubernetes the type of service we want
-# A load balancer distributes network packets to one or more pods
-  type: LoadBalancer
-# Ports are a list of ports the load balancer listens to. metadata:
+  type: NodePort
   ports:
-# Port is the port that we want to listen to on the network.
     - port: 80
-# The target port is the port the pod listens on inside kubernetes
       targetPort: 4567
