@@ -66,7 +66,7 @@ kind: Ingress
 metadata:
   name: stedi-ingress-austin-judkins
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: stedi-public
+    kubernetes.io/ingress.global-static-ip-name: stedi-public-austin-judkins
     networking.gke.io/managed-certificates: stedi-certificate-austin-judkins
     kubernetes.io/ingress.allow-http: "false"
     kubernetes.io/ingress.class: "gce"
